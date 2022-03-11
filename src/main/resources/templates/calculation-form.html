@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>日付計算フォーム</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/calculation-form}">日付計算</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/formulas}">計算式一覧</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <h1>日付計算</h1>
+        <form th:action="@{/calculate}" method="post" class="mb-3">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="date" placeholder="yyyy-MM-dd">
+            </div>
+            <div class="mb-3">
+                <select name="formulaId" class="form-select">
+                    <option th:each="formula : ${formulaIds}" th:value="${formula.id}" th:inline="text">[[${formula.name}]]</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">計算</button>
+        </form>
+
+        <th:block  th:if="!${#strings.isEmpty(result.name)}">
+            <div class="card">
+                <div class="card-body" th:text="'「' + ${result.input} + '」の「' + ${result.name} + '」の計算結果は' + ${result.result} + 'です。'"></div>
+            </div>
+        </th:block>
+    </div>
+</body>
+</html>
